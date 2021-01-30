@@ -6,10 +6,10 @@
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "7.12.11",
     "@babel/preset-react": "7.12.10",
+    "axios": "^0.21.1",
     "babel-loader": "8.1.0",
     "babel-plugin-named-asset-import": "^0.3.7",
     "babel-preset-react-app": "^10.0.0",
-    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "eslint": "^7.18.0",
     "history": "^5.0.0",
@@ -27,7 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "testcafe": "npx testcafe chrome testcafe/*.test.js -r spec,xunit:testcafe/report.xml --live",
+    "cypress": "NODE_ENV=development npx cypress run",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --fix --no-error-on-unmatched-pattern"
   },
   "eslintConfig": {
@@ -47,10 +47,10 @@
   },
   "babel": {
     "presets": [
-      "react"
+      "react-app"
     ]
   },
   "devDependencies": {
-    "testcafe": "^1.10.1"
+    "cypress": "^6.3.0"
   }
 }

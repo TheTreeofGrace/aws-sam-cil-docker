@@ -38,20 +38,17 @@ services:
     command: bash -c "npx http-server build -p 3000"
 
   # Update env for linux pipeline/linux REACT_APP_FEEDBACK_API=http://172.17.0.1:3001/feedback
-  testcafe:
-    build: .
+  cypress:
+    image: cypress/included:6.3.0
     depends_on:
       - react-app
-    ipc: host
+      - dynamodb
     environment:
-      - REACT_APP_FEEDBACK_API=http://host.docker.internal:3001/feedback
-      - HOST=http://react-app:3000/
+      - CYPRESS_HOST=http://react-app:3000
     working_dir: /e2e
     volumes:
-      - ./frontend/testcafe:/e2e/testcafe
-      - ./frontend/package.json:/e2e/package.json
-      - ./frontend/node_modules:/e2e/node_modules
-    command: bash -c "npx testcafe 'chrome:headless --no-sandbox --disable-dev-shm-usage' ./testcafe/*.test.js -S -s ./testcafe/screenshots -r spec,xunit:./testcafe/reports/report.xml"
+      - ./frontend/cypress:/e2e/cypress
+      - ./frontend/cypress.json:/e2e/cypress.json
 
 
 networks:

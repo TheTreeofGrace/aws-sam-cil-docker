@@ -11,3 +11,5 @@ cypress/screenshots/
 **/node_modules/
 frontend/testcafe/screenshots/
 frontend/testcafe/reports/
+frontend/cypress/videos/
+frontend/cypress/screenshots/
