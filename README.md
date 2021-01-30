@@ -1,3 +1,6 @@
+# This branch should be PlugNPlay for running in Azure. 
+Clone this repository into your own Azure DevOps account. Set up the pipeline from the azure-pipeline.yml file.
+
 # AWS SAM CLI E2E Testing
 
 Repository for running the SAM CLI on Azure with E2E tests.

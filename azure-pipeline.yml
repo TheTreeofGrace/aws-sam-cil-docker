@@ -1,0 +1,51 @@
+# Sam CLI running with E2E tests on a React App
+
+trigger:
+- pipeline/azure-testcafe
+
+resources:
+- repo: self
+
+variables:
+  - name: REACT_APP_FEEDBACK_API
+    value: http://172.17.0.1:3001/feedback
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '14.15.0'
+      displayName: 'Install Node.js'
+
+    - script: |
+        cd hello-world
+        npm install
+        cd ..
+      displayName: 'Install Dependencies'
+    - script: |
+        sam --version
+        aws --version
+        docker --version
+        brew --version
+        ifconfig
+      displayName: 'Check Requirments'
+    - script: |
+        ./startE2E.sh ${{ variables.REACT_APP_FEEDBACK_API }}
+      env:
+        REACT_APP_FEEDBACK_API: ${{ variables.REACT_APP_FEEDBACK_API }}
+      displayName: 'Sam and Docker Compose'
+
+    - task: PublishTestResults@2
+      inputs:
+        testRunner: JUnit
+        testResultsFiles: 'frontend/testcafe/reports/*.xml'
+        failTaskOnFailedTests: true
+      displayName: 'Publish Test Results'
+    
