@@ -3,5 +3,10 @@
       "HOST": "http://localhost:3000",
       "NODE_ENV": "develop"
     },
-    "watchForFileChanges": false
+    "watchForFileChanges": false,
+    "reporter": "junit",
+    "reporterOptions": {
+        "mochaFile": "reports/report.xml",
+        "toConsole": true
+    }
 }

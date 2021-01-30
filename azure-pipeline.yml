@@ -1,0 +1,42 @@
+# Sam CLI running with E2E tests with Cypress on a React App
+
+trigger:
+- pipeline/azure-cypress
+
+resources:
+- repo: self
+
+variables:
+  - name: REACT_APP_FEEDBACK_API
+    value: http://172.17.0.1:3001/feedback
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '14.15.0'
+      displayName: 'Install Node.js'
+
+    - script: |
+        sam --version
+        aws --version
+        docker --version
+        brew --version
+        ifconfig
+      displayName: 'Check Requirements'
+    - script: |
+        ./startE2E.sh ${{ variables.REACT_APP_FEEDBACK_API }}
+      displayName: 'Sam and Docker Compose'
+    - task: PublishTestResults@2
+      inputs:
+        testRunner: JUnit
+        testResultsFiles: 'frontend/cypress/reports/*.xml'
+        failTaskOnFailedTests: true
+      displayName: 'Publish Test Results'
