@@ -24,3 +24,8 @@ There is also example for pipeline on branch `pipeline/azure-testcafe`
 # Cypress
 
 Checkout `cypress` branch for cypress example. The better tool to use for this app. 
+
+# Cypress Pipeline
+Play spot the difference between the different configurations needed between these two pipeline branches:
+> `pipeline/azure-cypress`
+> `pipeline/azure-testcafe`
