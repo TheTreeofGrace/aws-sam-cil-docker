@@ -19,3 +19,8 @@ This script will run SAM CLI on your machine along with docker-compose.
 For those of you that are savy with environment variables, this environment variable will need to updated and the code changed accordingly:
 
 REACT_APP_FEEDBACK_API=http://172.17.0.1:3001/feedback
+There is also example for pipeline on branch `pipeline/azure-testcafe`
+
+# Cypress
+
+Checkout `cypress` branch for cypress example. The better tool to use for this app. 
