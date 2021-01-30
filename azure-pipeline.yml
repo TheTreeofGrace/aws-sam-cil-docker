@@ -25,11 +25,6 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
-        cd hello-world
-        npm install
-        cd ..
-      displayName: 'Install Dependencies'
-    - script: |
         sam --version
         aws --version
         docker --version
