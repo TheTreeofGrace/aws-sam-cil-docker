@@ -51,7 +51,6 @@ services:
       - ./frontend/node_modules:/e2e/node_modules
     command: bash -c "npx testcafe 'chrome:headless --no-sandbox --disable-dev-shm-usage' ./testcafe/*.test.js -S -s ./testcafe/screenshots -r spec,xunit:./testcafe/reports/report.xml"
 
-
 networks:
   default:
     external:
