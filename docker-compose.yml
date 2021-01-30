@@ -31,8 +31,6 @@ services:
     ports:
       - 3000:3000
     working_dir: /app
-    environment: 
-      - HOST=http://localhost:3000
     volumes:
       - ./frontend/build:/app/build
     command: bash -c "npx http-server build -p 3000"
