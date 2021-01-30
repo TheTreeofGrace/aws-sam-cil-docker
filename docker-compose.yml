@@ -9,6 +9,8 @@ services:
       - 8000:8000
     command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-inMemory"]
 
+  # REACT_APP_FEEDBACK_API is passed at build time in startE2E.sh
+  # If running on Linux the value needs to be changed to http://172.17.0.1:3001/feedback
   setup-tables:
     build: dbsetup/.
     image: aws-cli
@@ -19,12 +21,13 @@ services:
       - dynamodb
     command: sh dynamodbSetupAWS.sh
 
+  # Update env for linux pipeline/linux REACT_APP_FEEDBACK_API=http://172.17.0.1:3001/feedback
   react-app:
     image: node:14.15.0
-    build: .
     ipc: host
     depends_on: 
       - dynamodb
+      - setup-tables
     ports:
       - 3000:3000
     working_dir: /app
@@ -35,6 +38,7 @@ services:
       - ./frontend/build:/app/build
     command: bash -c "npx http-server build -p 3000"
 
+  # Update env for linux pipeline/linux REACT_APP_FEEDBACK_API=http://172.17.0.1:3001/feedback
   testcafe:
     build: .
     depends_on:

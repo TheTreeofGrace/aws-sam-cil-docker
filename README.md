@@ -13,3 +13,9 @@ You will find the backend and frontend code in this repository.
 To get started run the script `startE2E.sh`. 
 
 This script will run SAM CLI on your machine along with docker-compose. 
+
+# Pipeline
+
+For those of you that are savy with environment variables, this environment variable will need to updated and the code changed accordingly:
+
+REACT_APP_FEEDBACK_API=http://172.17.0.1:3001/feedback
