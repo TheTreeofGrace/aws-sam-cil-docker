@@ -7,3 +7,7 @@ cypress/screenshots/
 .DS_Store
 .eslintcache
 
+**/build/
+**/node_modules/
+frontend/testcafe/screenshots/
+frontend/testcafe/reports/
