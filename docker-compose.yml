@@ -33,7 +33,6 @@ services:
     working_dir: /app
     environment: 
       - HOST=http://localhost:3000
-      - REACT_APP_FEEDBACK_API=http://host.docker.internal:3001/feedback
     volumes:
       - ./frontend/build:/app/build
     command: bash -c "npx http-server build -p 3000"
