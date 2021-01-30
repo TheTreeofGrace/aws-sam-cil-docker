@@ -1,0 +1,57 @@
+version: '3.5'
+
+services:
+  dynamodb:
+    image: amazon/dynamodb-local
+    ipc: host
+    hostname: dynamodb
+    ports:
+      - 8000:8000
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-inMemory"]
+
+  setup-tables:
+    build: dbsetup/.
+    image: aws-cli
+    volumes:
+      - ./.aws/:/root/.aws/
+      - ./dbsetup/dynamodbSetupAWS.sh:/dynamodbSetupAWS.sh
+    depends_on: 
+      - dynamodb
+    command: sh dynamodbSetupAWS.sh
+
+  react-app:
+    image: node:14.15.0
+    build: .
+    ipc: host
+    depends_on: 
+      - dynamodb
+    ports:
+      - 3000:3000
+    working_dir: /app
+    environment: 
+      - HOST=http://localhost:3000
+      - REACT_APP_FEEDBACK_API=http://host.docker.internal:3001/feedback
+    volumes:
+      - ./frontend/build:/app/build
+    command: bash -c "npx http-server build -p 3000"
+
+  testcafe:
+    build: .
+    depends_on:
+      - react-app
+    ipc: host
+    environment:
+      - REACT_APP_FEEDBACK_API=http://host.docker.internal:3001/feedback
+      - HOST=http://react-app:3000/
+    working_dir: /e2e
+    volumes:
+      - ./frontend/testcafe:/e2e/testcafe
+      - ./frontend/package.json:/e2e/package.json
+      - ./frontend/node_modules:/e2e/node_modules
+    command: bash -c "npx testcafe 'chrome:headless --no-sandbox --disable-dev-shm-usage' ./testcafe/*.test.js -S -s ./testcafe/screenshots -r spec,xunit:./testcafe/reports/report.xml"
+
+
+networks:
+  default:
+    external:
+      name: feedback-network
