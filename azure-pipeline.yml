@@ -30,7 +30,7 @@ stages:
         docker --version
         brew --version
         ifconfig
-      displayName: 'Check Requirments'
+      displayName: 'Check Requirements'
     - script: |
         ./startE2E.sh ${{ variables.REACT_APP_FEEDBACK_API }}
       env:
